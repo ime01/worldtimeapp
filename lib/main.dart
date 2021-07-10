@@ -6,10 +6,11 @@ import 'package:worldtimeapp/pages/choose_location.dart';
 void main() {
   runApp(MaterialApp(
 
-    initialRoute: '/home',
+    // initialRoute: '/home',
+    // initialRoute: '/loading',
 
     routes: {
-      '/': (context) => Loading(),
+      "/": (context) => Loading(),
       '/home': (context) => Home(),
       '/location': (context) => ChooseLocation(),
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:worldtimeapp/services/world_time.dart';
 
 class ChooseLocation extends StatefulWidget {
   const ChooseLocation({Key? key}) : super(key: key);
@@ -8,6 +9,43 @@ class ChooseLocation extends StatefulWidget {
 }
 
 class _ChooseLocationState extends State<ChooseLocation> {
+
+  List<WorldTime> locations = [
+    WorldTime(url: 'Europe/London', location: 'London', flag: 'uk.png'),
+    WorldTime(url: 'Europe/Dublin', location: 'Dublin', flag: 'ireland.jpg'),
+    WorldTime(url: 'Europe/Berlin', location: 'Athens', flag: 'greece.png'),
+
+    WorldTime(url: 'Europe/Lisbon', location: 'Lisbon', flag: 'portugal.png'),
+    WorldTime(url: 'Europe/Oslo', location: 'Oslo', flag: 'norway.jpg'),
+    WorldTime(url: 'Europe/Paris', location: 'Paris', flag: 'france.jpg'),
+    WorldTime(url: 'Europe/Rome', location: 'Rome', flag: 'italy.png'),
+
+    WorldTime(url: 'Africa/Cairo', location: 'Cairo', flag: 'egypt.png'),
+    WorldTime(url: 'Africa/Nairobi', location: 'Nairobi', flag: 'kenya.png'),
+    WorldTime(url: 'Africa/Lagos', location: 'Lagos', flag: 'nigeria.png'),
+    WorldTime(url: 'America/Chicago', location: 'Chicago', flag: 'usa.png'),
+    WorldTime(url: 'America/Toronto', location: 'Toronto', flag: 'canada.png'),
+    WorldTime(url: 'America/New_York', location: 'New York', flag: 'usa.png'),
+    WorldTime(url: 'Asia/Seoul', location: 'Seoul', flag: 'south_korea.png'),
+    WorldTime(url: 'Asia/Jakarta', location: 'Jakarta', flag: 'indonesia.png'),
+  ];
+
+  void updateTime(index) async{
+
+    WorldTime instance = locations[index];
+
+    await instance.getTime();
+
+  //  Navigate to home screen
+    Navigator.pop(context, {
+      'location': instance.location,
+      'flag': instance.flag,
+      'time': instance.time,
+      'isDaytime': instance.isDayTime,
+    });
+
+
+  }
 
 
 
@@ -21,7 +59,28 @@ class _ChooseLocationState extends State<ChooseLocation> {
         centerTitle: true,
         elevation: 0,
       ),
-      body: Text('Choose Location Screen'),
+      body: ListView.builder(
+          itemCount: locations.length,
+          itemBuilder: (context, index){
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
+              child: Card(
+                child: ListTile(
+                onTap: (){
+                  // print(locations[index].location);
+                //  get Time Data for The Location Clicked
+                  updateTime(index);
+                },
+                title: Text(locations[index].location),
+                leading: CircleAvatar(
+                  backgroundImage: AssetImage('assets/${locations[index].flag}'),
+                ),
+                ),
+              ),
+            );
+          },
+
+      ),
     );
   }
 }
